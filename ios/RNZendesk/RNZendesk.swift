@@ -29,7 +29,7 @@ class RNZendesk: RCTEventEmitter {
     }
     
     
-    // MARK: - Initialization
+    // MARK: - Public API
 
     @objc(initialize:)
     func initialize(config: [String: Any]) {
@@ -40,9 +40,9 @@ class RNZendesk: RCTEventEmitter {
         
         Zendesk.initialize(appId: appId, clientId: clientId, zendeskUrl: zendeskUrl)
         Support.initialize(withZendesk: Zendesk.instance)
+        let identity = Identity.createAnonymous()
+        Zendesk.instance?.setIdentity(identity)
     }
-    
-    // MARK: - Indentification
     
     @objc(identifyJWT:)
     func identifyJWT(token: String?) {
@@ -51,19 +51,10 @@ class RNZendesk: RCTEventEmitter {
         Zendesk.instance?.setIdentity(identity)
     }
     
-    @objc(identifyAnonymous:email:)
-    func identifyAnonymous(name: String?, email: String?) {
-        var identity = Identity.createAnonymous(name: name, email: email)
-        Zendesk.instance?.setIdentity(identity)
-    }
-    
-    // MARK: - UI Methods
-    
     @objc(showHelpCenter:)
     func showHelpCenter(with options: [String: Any]) {
         DispatchQueue.main.async {
             let hcConfig = HelpCenterUiConfiguration()
-            hcConfig.hideContactSupport = (options["hideContactSupport"] as? Bool) ?? false
             let helpCenter = HelpCenterUi.buildHelpCenterOverview(withConfigs: [hcConfig])
             
             let nvc = UINavigationController(rootViewController: helpCenter)
