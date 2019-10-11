@@ -1,6 +1,6 @@
 {
   "name": "react-native-zendesk",
-  "version": "3.0.2",
+  "version": "3.0.2.1",
   "description": "Zendesk SDK for React Native.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -14,12 +14,6 @@
     "version": "yarn format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "files": [
-    "lib/**/*",
-    "ios/**/*",
-    "android/**/*",
-    "*.podspec"
-  ],
   "homepage": "https://github.com/dcvz/react-native-zendesk#readme",
   "repository": {
     "type": "git",
