@@ -40,10 +40,6 @@
 		9BEDAFF1208E954D000BFECF /* RNZendesk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNZendesk-Bridging-Header.h"; sourceTree = "<group>"; };
 		9BEDAFF2208E954E000BFECF /* RNZendeskBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNZendeskBridge.h; sourceTree = "<group>"; };
 		9BEDAFF3208E954E000BFECF /* RNZendeskBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNZendeskBridge.m; sourceTree = "<group>"; };
-		B6A7C26F21C1485900921846 /* ZendeskCoreSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZendeskCoreSDK.framework; sourceTree = "<group>"; };
-		B6A7C27021C1485A00921846 /* ZendeskProviderSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZendeskProviderSDK.framework; sourceTree = "<group>"; };
-		B6A7C27121C1485B00921846 /* ZendeskSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZendeskSDK.framework; sourceTree = "<group>"; };
-		B6A7C27221C1485B00921846 /* ZendeskSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZendeskSDKStrings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				9BEDAFDC208E90CB000BFECF /* RNZendesk */,
-				9BEDAFE4208E9102000BFECF /* Frameworks */,
 				9BEDAFDB208E90CB000BFECF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,17 +80,6 @@
 			path = RNZendesk;
 			sourceTree = "<group>";
 		};
-		9BEDAFE4208E9102000BFECF /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B6A7C26F21C1485900921846 /* ZendeskCoreSDK.framework */,
-				B6A7C27021C1485A00921846 /* ZendeskProviderSDK.framework */,
-				B6A7C27121C1485B00921846 /* ZendeskSDK.framework */,
-				B6A7C27221C1485B00921846 /* ZendeskSDKStrings.bundle */,
-			);
-			path = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -108,6 +92,7 @@
 				9BE9BDF820930DC5002221AF /* Resources */,
 				9BEDAFD8208E90CB000BFECF /* Copy Files */,
 				9BE9BB62209072ED002221AF /* Embedded Binaries */,
+				9BE9BB66209073A3002221AF /* Strip Zendesk Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,6 +145,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9BE9BB66209073A3002221AF /* Strip Zendesk Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Strip Zendesk Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskCoreSDK.framework/strip-frameworks.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9BEDAFD6208E90CB000BFECF /* Sources */ = {
@@ -297,7 +299,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/**",
-					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/React/**";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -324,7 +325,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/**",
-					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/React/**";
 				LD_RUNPATH_SEARCH_PATHS = (
