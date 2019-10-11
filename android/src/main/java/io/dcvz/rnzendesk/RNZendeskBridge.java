@@ -1,11 +1,10 @@
 package io.dcvz.rnzendesk;
 
-import zendesk.commonui.UiConfig;
-import zendesk.core.AnonymousIdentity;
 import zendesk.core.Zendesk;
 import zendesk.core.Identity;
 import zendesk.core.JwtIdentity;
 import zendesk.support.Support;
+import zendesk.support.UiConfig;
 import zendesk.support.guide.HelpCenterActivity;
 import zendesk.support.request.RequestActivity;
 
@@ -27,6 +26,8 @@ public class RNZendeskBridge extends ReactContextBaseJavaModule {
         return "RNZendesk";
     }
 
+    // MARK: - Initialization
+
     @ReactMethod
     public void initialize(ReadableMap config) {
         String appId = config.getString("appId");
@@ -34,10 +35,10 @@ public class RNZendeskBridge extends ReactContextBaseJavaModule {
         String clientId = config.getString("clientId");
 
         Zendesk.INSTANCE.init(getReactApplicationContext(), zendeskUrl, appId, clientId);
-        Identity identity = new AnonymousIdentity();
-        Zendesk.INSTANCE.setIdentity(identity);
         Support.INSTANCE.init(Zendesk.INSTANCE);
     }
+
+    // MARK: - Indentification
 
     @ReactMethod
     public void identifyJWT(String token) {
@@ -46,17 +47,27 @@ public class RNZendeskBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void identifyAnonymous(String name, String email) {
+        Identity identity = new AnonymousIdentity.Builder()
+        .withNameIdentifier(name)
+        .withEmailIdentifier(email)
+        .build();
+
+        Zendesk.INSTANCE.setIdentity(identity);
+    }
+
+    // MARK: - UI Methods
+
+    @ReactMethod
     public void showHelpCenter(ReadableMap options) {
         UiConfig hcConfig = HelpCenterActivity.builder()
                 .withContactUsButtonVisible(!(options.hasKey("hideContactSupport") && options.getBoolean("hideContactSupport")))
                 .config();
-        HelpCenterActivity.builder()
-                .withContactUsButtonVisible(true)
-                .show(getReactApplicationContext(), hcConfig);
-//        HelpCenterActivity.builder()
-//                .show(getReactApplicationContext(), hcConfig);
-    }
 
+        HelpCenterActivity.builder()
+                .show(getReactApplicationContext(), hcConfig);
+    }
+    
     @ReactMethod
     public void showNewTicket(ReadableMap options) {
         ArrayList tags = options.getArray("tags").toArrayList();
